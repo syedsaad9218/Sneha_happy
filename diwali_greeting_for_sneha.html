@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Diwali, Sneha! ✨🪔</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti & Canvas Effects -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f051d 0%, #290a38 50%, #170312 100%);
+            color: #fce7f3;
+            overflow-x: hidden;
+        }
+
+        .font-festive {
+            font-family: 'Cinzel Decorative', cursive;
+        }
+
+        .font-handwriting {
+            font-family: 'Great Vibes', cursive;
+        }
+
+        /* Diya Glow Effect */
+        .diya-glow {
+            filter: drop-shadow(0 0 15px rgba(251, 191, 36, 0.8)) drop-shadow(0 0 30px rgba(245, 158, 11, 0.6));
+            animation: pulse-glow 2s infinite alternate ease-in-out;
+        }
+
+        @keyframes pulse-glow {
+            0% {
+                filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.7)) drop-shadow(0 0 20px rgba(245, 158, 11, 0.4));
+                transform: scale(1);
+            }
+            100% {
+                filter: drop-shadow(0 0 22px rgba(251, 191, 36, 0.95)) drop-shadow(0 0 40px rgba(239, 68, 68, 0.7));
+                transform: scale(1.05);
+            }
+        }
+
+        /* Flame Animation */
+        .flame {
+            animation: flicker 0.15s infinite alternate ease-in-out;
+            transform-origin: center bottom;
+        }
+
+        @keyframes flicker {
+            0% { transform: scale(1) rotate(-1deg); opacity: 0.95; }
+            50% { transform: scale(1.08) rotate(1deg); opacity: 1; }
+            100% { transform: scale(0.96) rotate(-0.5deg); opacity: 0.9; }
+        }
+
+        /* Gold Gradient Text */
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fef08a 0%, #f59e0b 50%, #d97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .rose-gold-gradient {
+            background: linear-gradient(135deg, #fbcfe8 0%, #f472b6 50%, #db2777 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Card Hover Effects */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(251, 191, 36, 0.5);
+            box-shadow: 0 20px 40px rgba(245, 158, 11, 0.2);
+        }
+
+        /* Floating spark particles */
+        .sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #fbbf24;
+            box-shadow: 0 0 10px #fbbf24, 0 0 20px #f59e0b;
+            animation: float-up 4s infinite linear;
+            opacity: 0;
+        }
+
+        @keyframes float-up {
+            0% { transform: translateY(100px) scale(0); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-300px) scale(1.5); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="relative min-h-screen pb-20 selection:bg-amber-500 selection:text-amber-950">
+
+    <!-- Interactive Sparkles Background -->
+    <div id="sparkles-container" class="fixed inset-0 pointer-events-none z-0"></div>
+
+    <!-- Top Music & Wish Interactive Bar -->
+    <header class="relative z-10 w-full max-w-6xl mx-auto px-6 pt-8 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 to-rose-500 flex items-center justify-center text-amber-950 font-bold shadow-lg">
+                ✨
+            </div>
+            <span class="font-festive text-lg text-amber-300 tracking-wider">For Sneha</span>
+        </div>
+        <button id="sparkleBtn" onclick="triggerFireworks()" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-amber-500 via-rose-500 to-purple-600 text-white font-medium shadow-lg hover:brightness-110 transition duration-300 transform active:scale-95 flex items-center gap-2">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>Light Sky Lights</span>
+        </button>
+    </header>
+
+    <!-- Main Hero Greetings Header -->
+    <main class="relative z-10 max-w-6xl mx-auto px-4 mt-8 text-center">
+        
+        <!-- Interactive Diya Header Centerpiece -->
+        <div class="flex justify-center items-center my-6">
+            <div class="cursor-pointer group relative" onclick="triggerDiyaBurst(event)">
+                <!-- SVG Diya Art -->
+                <svg width="120" height="100" viewBox="0 0 120 100" class="diya-glow">
+                    <!-- Flame -->
+                    <g class="flame">
+                        <path d="M60 10 C60 10, 48 35, 60 50 C72 35, 60 10, 60 10 Z" fill="#fbbf24" />
+                        <path d="M60 18 C60 18, 52 35, 60 46 C68 35, 60 18, 60 18 Z" fill="#f97316" />
+                        <path d="M60 26 C60 26, 56 35, 60 42 C64 35, 60 26, 60 26 Z" fill="#fef08a" />
+                    </g>
+                    <!-- Diya Base -->
+                    <path d="M15 52 C15 52, 20 85, 60 85 C100 85, 105 52, 105 52 C105 52, 75 62, 60 62 C45 62, 15 52, 15 52 Z" fill="#b45309" stroke="#fef08a" stroke-width="2"/>
+                    <!-- Decorative Patterns -->
+                    <path d="M25 58 C35 68, 85 68, 95 58" fill="none" stroke="#fbbf24" stroke-width="2" stroke-dasharray="2,2"/>
+                    <circle cx="60" cy="72" r="4" fill="#f43f5e"/>
+                    <circle cx="45" cy="70" r="3" fill="#fef08a"/>
+                    <circle cx="75" cy="70" r="3" fill="#fef08a"/>
+                </svg>
+                <p class="text-xs text-amber-300/80 mt-2 tracking-widest uppercase group-hover:text-amber-200 transition">Click the Diya</p>
+            </div>
+        </div>
+
+        <h1 class="font-festive text-4xl sm:text-6xl md:text-7xl font-bold gold-gradient-text tracking-wide mb-3 leading-tight">
+            Happy Diwali, Sneha!
+        </h1>
+        
+        <p class="font-handwriting text-3xl sm:text-4xl text-rose-300 my-4">
+            May your life be as radiant as your smile & filled with endless warmth ✨
+        </p>
+
+        <p class="max-w-2xl mx-auto text-slate-300 text-sm sm:text-base leading-relaxed px-4">
+            Wishing you a festival filled with twinkling lights, laughter, sweetness, and moments that stay close to your heart forever. Here's a tiny celebration crafted specially for you!
+        </p>
+
+        <!-- Dynamic Photo & Personal Messages Gallery Section -->
+        <section class="mt-16 space-y-20">
+
+            <!-- Card 1: Sneha's Radiance (Brown Kurti Portrait) -->
+            <div class="glass-card rounded-3xl p-6 md:p-10 transition duration-500 transform hover:-translate-y-2">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    
+                    <!-- Image Box -->
+                    <div class="lg:col-span-5 relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-amber-500 via-rose-500 to-yellow-500 rounded-2xl blur opacity-30 group-hover:opacity-75 transition duration-500"></div>
+                        <div class="relative overflow-hidden rounded-2xl shadow-2xl border border-amber-500/30">
+                            <!-- Image insert -->
+                            <img id="snehaImg1" src="Screenshot 2026-11-06 170806.png" alt="Sneha Elegant Look" class="w-full h-[450px] object-cover object-top transform group-hover:scale-105 transition duration-700 ease-out">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60"></div>
+                            <div class="absolute bottom-4 left-4 right-4 text-left">
+                                <span class="px-3 py-1 bg-amber-500/80 backdrop-blur-md text-amber-950 font-semibold text-xs rounded-full">Grace & Elegance</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Beautiful Dedicated Message Box -->
+                    <div class="lg:col-span-7 text-left space-y-5">
+                        <div class="inline-flex items-center gap-2 text-amber-400 text-sm font-semibold tracking-wider uppercase">
+                            <i class="fa-solid fa-sparkles"></i>
+                            <span>Radiant Warmth</span>
+                        </div>
+
+                        <h2 class="font-festive text-2xl sm:text-4xl text-amber-200 leading-snug">
+                            "A Smile That Outshines a Thousand Diyas"
+                        </h2>
+
+                        <div class="space-y-4 text-slate-300 text-base leading-relaxed font-light">
+                            <p class="first-letter:text-4xl first-letter:font-serif first-letter:text-amber-400 first-letter:mr-1 first-letter:float-left">
+                                Sneha, seeing you in this elegant brown outfit with that gentle, radiant smile brings so much warmth and grace to this festive season. You possess an effortless glow that lights up every room and brings joy to everyone around you.
+                            </p>
+                            <p>
+                                May this Diwali bring you as much happiness, peace, and delight as you bring into the lives of your loved ones. May every lamp lit today fulfill your sweetest wishes and illuminate your path toward beautiful dreams.
+                            </p>
+                        </div>
+
+                        <!-- Festive Wish Tags -->
+                        <div class="pt-4 flex flex-wrap gap-2">
+                            <span class="px-4 py-1.5 rounded-full text-xs font-medium bg-amber-500/10 text-amber-300 border border-amber-500/20">✨ Pure Grace</span>
+                            <span class="px-4 py-1.5 rounded-full text-xs font-medium bg-rose-500/10 text-rose-300 border border-rose-500/20">🪔 Everlasting Joy</span>
+                            <span class="px-4 py-1.5 rounded-full text-xs font-medium bg-purple-500/10 text-purple-300 border border-purple-500/20">🌸 Prosperity</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Card 2: Sneha's Joyful Moments (Green Dress with Bouquet) -->
+            <div class="glass-card rounded-3xl p-6 md:p-10 transition duration-500 transform hover:-translate-y-2">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    
+                    <!-- Beautiful Dedicated Message Box (Ordered first on Desktop for contrast) -->
+                    <div class="lg:col-span-7 text-left space-y-5 order-2 lg:order-1">
+                        <div class="inline-flex items-center gap-2 text-rose-400 text-sm font-semibold tracking-wider uppercase">
+                            <i class="fa-solid fa-heart"></i>
+                            <span>Vibrant & Festive</span>
+                        </div>
+
+                        <h2 class="font-festive text-2xl sm:text-4xl text-rose-200 leading-snug">
+                            "Blooms of Joy & Sweet Moments"
+                        </h2>
+
+                        <div class="space-y-4 text-slate-300 text-base leading-relaxed font-light">
+                            <p class="first-letter:text-4xl first-letter:font-serif first-letter:text-rose-400 first-letter:mr-1 first-letter:float-left">
+                                Holding that vibrant bouquet in your lovely olive and crimson dress, you look as fresh, vibrant, and beautiful as flowers in full bloom. You remind us to cherish the colorful moments in life.
+                            </p>
+                            <p>
+                                Just like the bright festive colors you wear, may your entire coming year be painted with vibrant health, love, sparkling success, and sweet memories. Keep blooming, spreading good vibes, and chasing your passions!
+                            </p>
+                        </div>
+
+                        <!-- Festive Wish Tags -->
+                        <div class="pt-4 flex flex-wrap gap-2">
+                            <span class="px-4 py-1.5 rounded-full text-xs font-medium bg-rose-500/10 text-rose-300 border border-rose-500/20">🌹 Bright Celebrations</span>
+                            <span class="px-4 py-1.5 rounded-full text-xs font-medium bg-amber-500/10 text-amber-300 border border-amber-500/20">💫 Positivity & Smiles</span>
+                            <span class="px-4 py-1.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">🌿 Flourishing Success</span>
+                        </div>
+                    </div>
+
+                    <!-- Image Box -->
+                    <div class="lg:col-span-5 relative group order-1 lg:order-2">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-rose-500 via-emerald-500 to-amber-500 rounded-2xl blur opacity-30 group-hover:opacity-75 transition duration-500"></div>
+                        <div class="relative overflow-hidden rounded-2xl shadow-2xl border border-rose-500/30">
+                            <!-- Image insert -->
+                            <img id="snehaImg2" src="Screenshot 2026-11-06 170906.png" alt="Sneha with Flowers" class="w-full h-[450px] object-cover object-center transform group-hover:scale-105 transition duration-700 ease-out">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60"></div>
+                            <div class="absolute bottom-4 left-4 right-4 text-left">
+                                <span class="px-3 py-1 bg-rose-500/80 backdrop-blur-md text-white font-semibold text-xs rounded-full">Vibrant Festive Vibes</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Interactive Greetings Card / Wish Interactive Box -->
+        <section class="mt-20 glass-card rounded-3xl p-8 sm:p-12 text-center relative overflow-hidden">
+            <div class="absolute -top-10 -right-10 w-40 h-40 bg-amber-500/10 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-rose-500/10 rounded-full blur-3xl"></div>
+
+            <span class="text-4xl mb-4 block">🪔✨🎆</span>
+            <h3 class="font-festive text-3xl sm:text-4xl gold-gradient-text mb-4">
+                Special Diwali Wish For You
+            </h3>
+
+            <p class="max-w-xl mx-auto text-slate-300 text-sm sm:text-base leading-relaxed mb-8">
+                "May goddess Lakshmi bless you with abundance, Lord Ganesha remove all obstacles from your path, and the lights of Diwali illuminate your journey ahead with boundless joy."
+            </p>
+
+            <button onclick="popSurprise()" class="px-8 py-4 rounded-full bg-gradient-to-r from-amber-400 via-orange-500 to-rose-500 text-slate-950 font-bold text-lg shadow-xl hover:shadow-amber-500/30 hover:scale-105 transition duration-300">
+                Tap For A Diwali Shower 🎊
+            </button>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 text-center text-slate-500 text-xs mt-20">
+        <p>Crafted with warmth & festive cheer for Sneha • Happy Diwali 🪔</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Set image URLs directly using provided input previews
+        document.getElementById('snehaImg1').src = "Screenshot 2026-11-06 170806.jpg";
+        document.getElementById('snehaImg2').src = "Screenshot 2026-11-06 170906.jpg";
+
+        // Fallback placeholder mechanism if images are moved/renamed locally
+        document.querySelectorAll('img').forEach(img => {
+            img.onerror = function() {
+                this.src = 'https://placehold.co/600x800/290a38/fbbf24?text=Sneha+Diwali+Special';
+            };
+        });
+
+        // Background floating sparkle effect generator
+        function createSparkles() {
+            const container = document.getElementById('sparkles-container');
+            const sparkleCount = 25;
+
+            for (let i = 0; i < sparkleCount; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = `${Math.random() * 100}%`;
+                sparkle.style.animationDelay = `${Math.random() * 4}s`;
+                sparkle.style.animationDuration = `${3 + Math.random() * 4}s`;
+                container.appendChild(sparkle);
+            }
+        }
+
+        // Trigger fireworks confetti explosion
+        function triggerFireworks() {
+            const duration = 3 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 999 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 50 * (timeLeft / duration);
+                
+                // Fireworks from left and right screen edges
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }, colors: ['#fbbf24', '#f43f5e', '#d97706'] }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }, colors: ['#a855f7', '#38bdf8', '#fef08a'] }));
+            }, 250);
+        }
+
+        // Burst effect when clicking the Diya
+        function triggerDiyaBurst(event) {
+            const rect = event.currentTarget.getBoundingClientRect();
+            const x = (rect.left + rect.width / 2) / window.innerWidth;
+            const y = (rect.top + rect.height / 2) / window.innerHeight;
+
+            confetti({
+                particleCount: 80,
+                spread: 100,
+                origin: { x: x, y: y },
+                colors: ['#fbbf24', '#f59e0b', '#ef4444', '#fef08a']
+            });
+        }
+
+        // Pop surprise festive shower button
+        function popSurprise() {
+            confetti({
+                particleCount: 150,
+                spread: 90,
+                origin: { y: 0.7 },
+                colors: ['#f59e0b', '#ec4899', '#8b5cf6', '#10b981', '#fef08a']
+            });
+        }
+
+        // Initialize background animations on page load
+        window.onload = function() {
+            createSparkles();
+            // Optional subtle welcome fireworks
+            setTimeout(triggerFireworks, 1000);
+        };
+    </script>
+</body>
+</html>
